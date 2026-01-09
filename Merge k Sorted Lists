@@ -1,0 +1,34 @@
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+
+        // Min heap to get smallest node each time
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(
+            (a, b) -> a.val - b.val
+        );
+
+        // Add the head of each list to the heap
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                pq.add(lists[i]);
+            }
+        }
+
+        // Dummy node to build result list
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        // While heap is not empty
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();   // smallest node
+            current.next = node;
+            current = current.next;
+
+            if (node.next != null) {
+                pq.add(node.next);
+            }
+        }
+
+        return dummy.next;
+    }
+}
